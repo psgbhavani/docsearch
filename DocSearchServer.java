@@ -36,7 +36,29 @@ class Handler implements URLHandler {
       this.files = FileHelpers.getFiles(Paths.get(directory));
     }
     public String handleRequest(URI url) throws IOException {
-      return "Don't know how to handle that path!";
+        if (url.getPath().equals("/")) {
+            return String.format("There are %d files to search", this.files.size());
+        } else {
+            if (url.getPath().contains("/search")){
+                String[] parameters = url.getQuery().split("=");
+                if (parameters[0].equals("q")) {
+                    //TODO: FIND FILES WITH THE SEARCH TERM IN IT
+                    // for (File file : this.files) {
+                    //     if (file.isDirectory()) {
+                    //         System.out.println("Directory: " + file.getAbsolutePath());
+                    //         showFiles(file.listFiles()); // Calls same method again.
+                    //     } else {
+                    //         System.out.println("File: " + file.getAbsolutePath());
+                    //     }
+                    // }
+
+                    List<File> search_list = files; //FileHelpers.getFiles(Paths.get(directory));
+                    return String.format("There were %d files found with search-term '%s': %s", search_list.size(), parameters[1], search_list.toString());
+                }
+            }
+
+            return "Don't know how to handle that path!";
+        }
     }
 }
 
